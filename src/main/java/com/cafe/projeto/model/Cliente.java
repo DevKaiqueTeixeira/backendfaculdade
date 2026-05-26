@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "cliente")
@@ -27,8 +28,8 @@ public class Cliente {
     @Column(nullable = false, unique = true, length = 14)
     private String cpf;
 
-    @Column(nullable = false, length = 255)
-    private String senha;
+    @Column(name = "auth_user_id", unique = true)
+    private UUID authUserId;
 
     @Column(nullable = false, unique = true, length = 160)
     private String email;
@@ -66,12 +67,12 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public String getSenha() {
-        return senha;
+    public UUID getAuthUserId() {
+        return authUserId;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setAuthUserId(UUID authUserId) {
+        this.authUserId = authUserId;
     }
 
     public String getEmail() {

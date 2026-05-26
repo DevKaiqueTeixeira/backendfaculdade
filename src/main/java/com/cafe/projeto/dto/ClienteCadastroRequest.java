@@ -6,7 +6,7 @@ public class ClienteCadastroRequest {
 
     private String nome;
     private String cpf;
-    private String senha;
+    private String authUserId;
     private String email;
     private LocalDate dataNascimento;
 
@@ -26,12 +26,12 @@ public class ClienteCadastroRequest {
         this.cpf = cpf;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getAuthUserId() {
+        return authUserId;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setAuthUserId(String authUserId) {
+        this.authUserId = authUserId;
     }
 
     public String getEmail() {
