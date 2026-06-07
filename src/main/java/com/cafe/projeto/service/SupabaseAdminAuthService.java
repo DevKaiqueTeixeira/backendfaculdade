@@ -127,6 +127,36 @@ public class SupabaseAdminAuthService {
         }
     }
 
+    public String buscarUsuarioIdPorAccessToken(String accessToken) {
+        validarConfiguracao();
+
+        if (accessToken == null || accessToken.isBlank()) {
+            throw new AutorizacaoException("Token de acesso obrigatorio.");
+        }
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(normalizarBaseUrl() + "/auth/v1/user"))
+                    .header("apikey", obterChaveApi())
+                    .header("Authorization", "Bearer " + accessToken)
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
+                throw new AutorizacaoException("Sessao invalida ou expirada.");
+            }
+
+            return extrairUserId(response.body());
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new AutorizacaoException("Erro ao validar sessao do usuario.");
+        } catch (IOException ex) {
+            throw new AutorizacaoException("Erro ao validar sessao do usuario.");
+        }
+    }
+
     private void validarConfiguracao() {
         if (supabaseUrl == null || supabaseUrl.isBlank()) {
             throw new ValidacaoException("Configuração Supabase URL ausente no backend.");
@@ -139,6 +169,10 @@ public class SupabaseAdminAuthService {
 
     private boolean temServiceRole() {
         return serviceRoleKey != null && !serviceRoleKey.isBlank();
+    }
+
+    private String obterChaveApi() {
+        return temServiceRole() ? serviceRoleKey : publishableKey;
     }
 
     private String normalizarBaseUrl() {

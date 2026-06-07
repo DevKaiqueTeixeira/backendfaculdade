@@ -15,7 +15,7 @@ public class ExisteClientePorCpf implements OperacaoDao<String, Boolean> {
 
     @Override
     public Boolean executar(String entrada) {
-        String sql = "select exists(select 1 from cliente where cpf = ?)";
+        String sql = "select exists(select 1 from cliente where regexp_replace(cpf, '\\D', '', 'g') = ?)";
         Boolean resultado = jdbcTemplate.queryForObject(sql, Boolean.class, entrada);
         return Boolean.TRUE.equals(resultado);
     }
