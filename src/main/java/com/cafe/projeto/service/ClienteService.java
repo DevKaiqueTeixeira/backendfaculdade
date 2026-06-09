@@ -199,6 +199,9 @@ public class ClienteService {
         validarCampoObrigatorio(cpf, "CPF");
         validarCampoObrigatorio(authUserId, "Auth user id");
         validarCampoObrigatorio(email, "Email");
+        EmojiValidationUtils.validarSemEmoji(nome, "nome");
+        EmojiValidationUtils.validarSemEmoji(cpf, "cpf");
+        EmojiValidationUtils.validarSemEmoji(email, "email");
         validarCpf(cpf);
 
         if (dataNascimento == null) {

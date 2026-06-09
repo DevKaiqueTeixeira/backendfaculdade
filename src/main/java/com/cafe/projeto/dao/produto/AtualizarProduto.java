@@ -19,7 +19,8 @@ public class AtualizarProduto implements OperacaoDao<ProdutoAtualizacaoRequest, 
         String sql = """
                 update produto
                 set nome = ?,
-                    preco = ?
+                    preco = ?,
+                    imagem_url = ?
                 where id = ?
                 returning id
                 """;
@@ -29,6 +30,7 @@ public class AtualizarProduto implements OperacaoDao<ProdutoAtualizacaoRequest, 
                 Long.class,
                 entrada.getNome(),
                 entrada.getPreco(),
+                entrada.getImagemUrl(),
                 entrada.getId()
         );
     }

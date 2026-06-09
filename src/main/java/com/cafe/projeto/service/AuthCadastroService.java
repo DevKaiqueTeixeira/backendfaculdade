@@ -51,6 +51,11 @@ public class AuthCadastroService {
             throw new ValidacaoException("Body da requisicao e obrigatorio.");
         }
 
+        EmojiValidationUtils.validarSemEmoji(request.getNome(), "nome");
+        EmojiValidationUtils.validarSemEmoji(request.getCpf(), "cpf");
+        EmojiValidationUtils.validarSemEmoji(request.getEmail(), "email");
+        EmojiValidationUtils.validarSemEmoji(request.getSenha(), "senha");
+
         if (request.getSenha() == null || request.getSenha().trim().isEmpty()) {
             throw new ValidacaoException("Senha e obrigatoria.");
         }

@@ -17,8 +17,8 @@ public class CadastrarProduto implements OperacaoDao<ProdutoCadastroRequest, Lon
     @Override
     public Long executar(ProdutoCadastroRequest entrada) {
         String sql = """
-                insert into produto (nome, preco)
-                values (?, ?)
+                insert into produto (nome, preco, imagem_url)
+                values (?, ?, ?)
                 returning id
                 """;
 
@@ -26,7 +26,8 @@ public class CadastrarProduto implements OperacaoDao<ProdutoCadastroRequest, Lon
                 sql,
                 Long.class,
                 entrada.getNome(),
-                entrada.getPreco()
+                entrada.getPreco(),
+                entrada.getImagemUrl()
         );
     }
 }
