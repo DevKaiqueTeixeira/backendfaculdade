@@ -128,6 +128,28 @@ public class SupabaseAdminAuthService {
     }
 
     public String buscarUsuarioIdPorAccessToken(String accessToken) {
+        JsonNode usuario = buscarUsuarioPorAccessToken(accessToken);
+        JsonNode idNode = usuario.get("id");
+
+        if (idNode != null && !idNode.asText().isBlank()) {
+            return idNode.asText();
+        }
+
+        throw new AutorizacaoException("Sessao invalida ou expirada.");
+    }
+
+    public String buscarEmailPorAccessToken(String accessToken) {
+        JsonNode usuario = buscarUsuarioPorAccessToken(accessToken);
+        JsonNode emailNode = usuario.get("email");
+
+        if (emailNode != null && !emailNode.asText().isBlank()) {
+            return emailNode.asText();
+        }
+
+        throw new AutorizacaoException("Sessao invalida ou expirada.");
+    }
+
+    private JsonNode buscarUsuarioPorAccessToken(String accessToken) {
         validarConfiguracao();
 
         if (accessToken == null || accessToken.isBlank()) {
@@ -148,7 +170,7 @@ public class SupabaseAdminAuthService {
                 throw new AutorizacaoException("Sessao invalida ou expirada.");
             }
 
-            return extrairUserId(response.body());
+            return objectMapper.readTree(response.body());
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
             throw new AutorizacaoException("Erro ao validar sessao do usuario.");
