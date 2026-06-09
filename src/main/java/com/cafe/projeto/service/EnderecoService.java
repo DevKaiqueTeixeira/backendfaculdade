@@ -119,6 +119,16 @@ public class EnderecoService {
         validarCampoObrigatorio(request.getEstado(), "Estado");
         validarCampoObrigatorio(request.getPais(), "Pais");
         validarCampoObrigatorio(request.getTipoEndereco(), "TipoEndereco");
+        validarCampoSemEmoji(request.getCep(), "CEP");
+        validarCampoSemEmoji(request.getLogradouro(), "Logradouro");
+        validarCampoSemEmoji(request.getNumero(), "Numero");
+        validarCampoSemEmoji(request.getComplemento(), "Complemento");
+        validarCampoSemEmoji(request.getBairro(), "Bairro");
+        validarCampoSemEmoji(request.getCidade(), "Cidade");
+        validarCampoSemEmoji(request.getEstado(), "Estado");
+        validarCampoSemEmoji(request.getPais(), "Pais");
+        validarCampoSemEmoji(request.getPontoReferencia(), "PontoReferencia");
+        validarCampoSemEmoji(request.getTipoEndereco(), "TipoEndereco");
         validarTamanhoMaximo(request.getCep(), 9, "CEP");
         validarTamanhoMaximo(request.getLogradouro(), 160, "Logradouro");
         validarTamanhoMaximo(request.getNumero(), 20, "Numero");
@@ -170,6 +180,10 @@ public class EnderecoService {
         if (valor != null && valor.trim().length() > tamanhoMaximo) {
             throw new ValidacaoException(campo + " excede o tamanho permitido.");
         }
+    }
+
+    private void validarCampoSemEmoji(String valor, String campo) {
+        EmojiValidationUtils.validarSemEmoji(valor, campo);
     }
 
     private Cliente buscarClienteAutenticado(String authorization) {

@@ -19,7 +19,6 @@ import java.util.List;
 public class AdicionalService {
 
     private static final String ADMIN_EMAIL = "admin@gmail.com";
-
     private final CadastrarAdicional cadastrarAdicional;
     private final ExcluirAdicional excluirAdicional;
     private final ExisteProdutoPorId existeProdutoPorId;
@@ -109,6 +108,8 @@ public class AdicionalService {
         if (request.getNome().trim().length() > 120) {
             throw new ValidacaoException("Nome excede o tamanho permitido.");
         }
+
+        EmojiValidationUtils.validarSemEmoji(request.getNome(), "nome do adicional");
 
         if (request.getPreco() == null) {
             throw new ValidacaoException("Preco e obrigatorio.");

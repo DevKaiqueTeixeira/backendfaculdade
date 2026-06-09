@@ -23,6 +23,9 @@ public class Produto {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal preco;
 
+    @Column(name = "imagem_url", length = 255)
+    private String imagemUrl;
+
     public Produto() {
     }
 
@@ -48,5 +51,13 @@ public class Produto {
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
+    }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
     }
 }

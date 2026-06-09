@@ -5,30 +5,28 @@ import com.cafe.projeto.dto.ProdutoResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-public class ListarProdutos implements OperacaoDao<Void, List<ProdutoResponse>> {
+public class BuscarProdutoPorId implements OperacaoDao<Long, ProdutoResponse> {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ListarProdutos(JdbcTemplate jdbcTemplate) {
+    public BuscarProdutoPorId(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public List<ProdutoResponse> executar(Void entrada) {
+    public ProdutoResponse executar(Long entrada) {
         String sql = """
                 select id, nome, preco, imagem_url
                 from produto
-                order by id desc
+                where id = ?
                 """;
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new ProdutoResponse(
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new ProdutoResponse(
                 rs.getLong("id"),
                 rs.getString("nome"),
                 rs.getBigDecimal("preco"),
                 rs.getString("imagem_url")
-        ));
+        ), entrada);
     }
 }
