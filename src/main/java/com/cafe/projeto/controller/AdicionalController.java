@@ -28,11 +28,8 @@ public class AdicionalController {
     }
 
     @GetMapping("/produto/{produtoId}")
-    public ResponseEntity<List<AdicionalResponse>> listarPorProduto(
-            @RequestHeader(value = "Authorization", required = false) String authorization,
-            @PathVariable Long produtoId
-    ) {
-        List<AdicionalResponse> response = adicionalService.listarPorProduto(authorization, produtoId);
+    public ResponseEntity<List<AdicionalResponse>> listarPorProduto(@PathVariable Long produtoId) {
+        List<AdicionalResponse> response = adicionalService.listarPorProduto(produtoId);
         return ResponseEntity.ok(response);
     }
 
