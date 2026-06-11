@@ -39,9 +39,7 @@ public class AdicionalService {
         this.supabaseAdminAuthService = supabaseAdminAuthService;
     }
 
-    public List<AdicionalResponse> listarPorProduto(String authorization, Long produtoId) {
-        validarAdmin(authorization);
-
+    public List<AdicionalResponse> listarPorProduto(Long produtoId) {
         if (produtoId == null || produtoId <= 0) {
             throw new ValidacaoException("Produto e obrigatorio.");
         }
